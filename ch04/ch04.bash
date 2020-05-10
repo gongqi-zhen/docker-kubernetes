@@ -37,7 +37,7 @@ done
 (
     cd ./todonginx/
     docker image build -t ch04/nginx:latest .
-    docker image tag ch04/nginx-nuxt:latest localhost:5000/ch04/nginx:latest
+    docker image tag ch04/nginx:latest localhost:5000/ch04/nginx:latest
     docker image push localhost:5000/ch04/nginx:latest
 )
 
@@ -53,7 +53,7 @@ cp ./ch04_5_3/nuxt.conf.tmpl ./todonginx/etc/nginx/conf.d/
 
 # docker stack deploy向けのデータ作成
 
-cp -t ./stack/ ./ch04_*/todo-*.yml
+cp ./ch04_*/todo-*.yml ./stack/
 
 (
     cd ./stack/
