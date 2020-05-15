@@ -2,10 +2,10 @@
 
 set -ex
 
-for repo in "tododb" "todoweb" "todonginx" "todoapi"
-do
-    git clone "https://github.com/gihyodocker/$repo"
-done
+#for repo in "tododb" "todoweb" "todonginx" "todoapi"
+#do
+#    git clone "https://github.com/gihyodocker/$repo"
+#done
 
 cp ../ch03/ch03_5_1/docker-compose.yml .
 docker-compose up -d
