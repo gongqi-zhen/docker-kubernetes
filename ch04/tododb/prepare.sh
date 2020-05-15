@@ -3,7 +3,8 @@
 # (1) MasterとSlaveを環境変数で制御する
 if [ ! -z "$MYSQL_MASTER" ]; then
   echo "this container is master"
-  return 0
+#  return 0
+  exit 0
 fi
 
 echo "prepare as slave"
