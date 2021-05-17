@@ -7,7 +7,7 @@ set -ex
 #    git clone "https://github.com/gihyodocker/$repo"
 #done
 
-cp ../ch03/ch03_5_1/docker-compose.yml .
+# cp ../ch03/ch03_5_1/docker-compose.yml .
 docker-compose up -d
 
 worker_job=$(docker container exec -it manager docker swarm init \
@@ -22,39 +22,39 @@ done
 
 docker container exec -it manager docker network create --driver=overlay --attachable todoapp
 
-for dir in "todoapi" "todoweb" "tododb"
-do
-    (
-        cd $dir
-        docker image build -t ch04/"$dir":latest .
-        docker image tag ch04/"$dir":latest localhost:5000/ch04/"$dir":latest
-        docker image push localhost:5000/ch04/"$dir":latest
-    )
-done
-
-# todonginx作成
-
-(
-    cd ./todonginx/
-    docker image build -t ch04/nginx:latest .
-    docker image tag ch04/nginx:latest localhost:5000/ch04/nginx:latest
-    docker image push localhost:5000/ch04/nginx:latest
-)
-
-cp ./ch04_5_3/Dockerfile-nuxt ./todonginx/
-cp ./ch04_5_3/nuxt.conf.tmpl ./todonginx/etc/nginx/conf.d/
-
-(
-    cd ./todonginx/
-    docker image build -f Dockerfile-nuxt -t ch04/nginx-nuxt:latest .
-    docker image tag ch04/nginx-nuxt:latest localhost:5000/ch04/nginx-nuxt:latest
-    docker image push localhost:5000/ch04/nginx-nuxt:latest
-)
-
-# docker stack deploy向けのデータ作成
-
-cp ./ch04_*/todo-*.yml ./stack/
-
+#for dir in "todoapi" "todoweb" "tododb"
+#do
+#    (
+#        cd $dir
+#        docker image build -t ch04/"$dir":latest .
+#        docker image tag ch04/"$dir":latest localhost:5000/ch04/"$dir":latest
+#        docker image push localhost:5000/ch04/"$dir":latest
+#    )
+#done
+#
+## todonginx作成
+#
+#(
+#    cd ./todonginx/
+#    docker image build -t ch04/nginx:latest .
+#    docker image tag ch04/nginx:latest localhost:5000/ch04/nginx:latest
+#    docker image push localhost:5000/ch04/nginx:latest
+#)
+#
+#cp ./ch04_5_3/Dockerfile-nuxt ./todonginx/
+#cp ./ch04_5_3/nuxt.conf.tmpl ./todonginx/etc/nginx/conf.d/
+#
+#(
+#    cd ./todonginx/
+#    docker image build -f Dockerfile-nuxt -t ch04/nginx-nuxt:latest .
+#    docker image tag ch04/nginx-nuxt:latest localhost:5000/ch04/nginx-nuxt:latest
+#    docker image push localhost:5000/ch04/nginx-nuxt:latest
+#)
+#
+## docker stack deploy向けのデータ作成
+#
+#cp ./ch04_*/todo-*.yml ./stack/
+#
 (
     cd ./stack/
     for todoyml in todo-*.yml
@@ -78,5 +78,5 @@ docker container exec -it "$dbcontainer_node" docker container exec -it "$dbcont
 echo "
 # composeとめてファイル削除
 docker-compose stop;docker-compose rm -f
-rm -rf tododb todoweb todonginx todoapi stack registry-data docker-compose.yml
+rm -rf stack registry-data docker-compose.yml
 "
